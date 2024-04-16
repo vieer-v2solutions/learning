@@ -1,41 +1,19 @@
 name: MY-V@s
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs: 
-      NAME : ${{ steps.creation.outputs.name }}
-      TYPE : ${{ steps.creation.outputs.type }}
+    outputs:
+        NAME : ${{ steps.creation.outputs.name }}
+        TYPE : ${{ steps.creation.outputs.type }}
     steps:
       - name: Run a one-line script
         id : creation
         run: |
-          echo "name=Vieer.pdf" >> $GITHUB_OUTPUT
-          echo "type=pdf" >> $GITHUB_OUTPUT
-          
-  deploy:
-    needs : build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run a one-line script
-        id : creation
+            echo "name=Vieer.pdf" >> $GITHUB_OUTPUT
+            echo "type=pdf" >> $GITHUB_OUTPUT
+
+      - name: githu context
         run: |
-          echo "Name is : ${{ needs.build.outputs.NAME }} | Type is : ${{ needs.build.outputs.TYPE }}"
-
-  python-test:
-    needs : build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Pull a python script
-      uses: actions/checkout@v4
-
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        cache: 'pip'
-    - run: pip install -r req.txt
+          echo ${{ github }}
